@@ -16,12 +16,16 @@ class MainActivity : AppCompatActivity(),CustomModel.OnCustomStateListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
        // CustomModel.getInstance().setListener(this,this)
+
+        val paymentOptions = PaymentOptions(
+            apiKey = "your_api_key",
+            amount = "100",
+            description = "Payment for something", isContainAddress = true
+        )
         binding.buyButton.setOnClickListener {
             val modelState = CustomModel.getInstance().getState()
             Log.d(TAG, "Current state: $modelState")
-            CustomModel.getInstance().start(this,this)
- //           val intent = Intent(this, PaymentActivity::class.java)
-//            startActivity(intent)
+            CustomModel.getInstance().start(this,this,paymentOptions)
            Toast.makeText(this, "Buy now clicked", Toast.LENGTH_SHORT).show()
         }
     }

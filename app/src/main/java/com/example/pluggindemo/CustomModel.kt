@@ -21,9 +21,15 @@ class CustomModel private constructor() {
             return mInstance as CustomModel
         }
     }
-    fun start(activity: Activity,listener: OnCustomStateListener) {
+    fun start(activity: Activity,listener: OnCustomStateListener, options: PaymentOptions,) {
         mListener = listener
         val intent = Intent(activity, PaymentActivity::class.java)
+        // Pass payment options to PaymentActivity
+        intent.putExtra("API_KEY", options.apiKey)
+        intent.putExtra("AMOUNT", options.amount)
+        intent.putExtra("DESCRIPTION", options.description)
+        intent.putExtra("ADDRESS_AVAILABLE", options.isContainAddress)
+
         activity.startActivity(intent)
     }
     private var mListener: OnCustomStateListener? = null
