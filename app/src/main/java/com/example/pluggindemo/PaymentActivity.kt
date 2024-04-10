@@ -10,11 +10,12 @@ import com.example.pluggindemo.databinding.ActivityPaymentBinding
 
 class PaymentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPaymentBinding
-
+    var tabTitle= arrayOf("Billing Information","payment Information")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentBinding.inflate(layoutInflater)
+
         if (intent.getBooleanExtra("ADDRESS_AVAILABLE",false)){
             setContentView(binding.root)
         }
