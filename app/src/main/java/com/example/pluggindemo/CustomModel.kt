@@ -5,10 +5,7 @@ import android.content.Intent
 
 class CustomModel private constructor() {
 
-    interface OnCustomStateListener {
-        fun onPaymentSuccess(message:String)
-        fun stateDeclined()
-    }
+
 
     companion object {
         private var mInstance: CustomModel? = null
@@ -35,14 +32,14 @@ class CustomModel private constructor() {
     private var mListener: OnCustomStateListener? = null
     private var mState = false
 
-//    fun setListener(listener: OnCustomStateListener) {
-//        mListener = listener
-//    }
+    fun setListener(listener: OnCustomStateListener) {
+        mListener = listener
+    }
 
     fun changeState(state: Boolean) {
         mListener?.let {
             mState = state
-            notifyStateChange()
+            notifyStateChange(state)
         }
     }
 
@@ -50,7 +47,14 @@ class CustomModel private constructor() {
         return mState
     }
 
-    private fun notifyStateChange() {
-        mListener?.onPaymentSuccess("Payment Success")
+    private fun notifyStateChange(boolean: Boolean) {
+       if(boolean) {
+        mListener?.onPaymentSuccess("Payment Success")}else{
+           mListener?.stateDeclined()
+       }
     }
+}
+interface OnCustomStateListener {
+    fun onPaymentSuccess(message:String)
+    fun stateDeclined()
 }

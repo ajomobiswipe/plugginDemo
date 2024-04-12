@@ -1,55 +1,37 @@
 package com.example.pluggindemo
 
-import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
+import ViewPagerAdapter
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import com.example.pluggindemo.databinding.ActivityMainBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.example.pluggindemo.databinding.ActivityPaymentBinding
+import com.example.pluggindemo.framents.BillingInfoFragment
+import com.example.pluggindemo.framents.PaymentInfoFragment
 
 class PaymentActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityPaymentBinding
+    lateinit var binding: ActivityPaymentBinding
     var tabTitle= arrayOf("Billing Information","payment Information")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPaymentBinding.inflate(layoutInflater)
-
-        if (intent.getBooleanExtra("ADDRESS_AVAILABLE",false)){
-            setContentView(binding.root)
-        }
-       // setContentView(binding.root)
+       binding = ActivityPaymentBinding.inflate(layoutInflater)
 
 
-        binding.payButton.setOnClickListener {
-            CustomModel.getInstance().changeState(true)
-            Log.d(TAG, "SecondActivity onCreate: State changed to true")
-            val apiKey = intent.getStringExtra("API_KEY")
-            val amount = intent.getStringExtra("AMOUNT")
-            val description = intent.getStringExtra("DESCRIPTION")
-            val addressAvailable = intent.getBooleanExtra("ADDRESS_AVAILABLE",false)
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        adapter.addFragment(BillingInfoFragment(), tabTitle[0])
+        adapter.addFragment(PaymentInfoFragment(), tabTitle[1])
+        binding.viewPager.adapter = adapter
+       binding.tabs.setupWithViewPager(binding.viewPager)
 
-            // Perform the payment logic here using apiKey, amount, and description
-            val paymentId = performPayment(apiKey, amount, description)
-            Toast.makeText(this, "Response: $paymentId", Toast.LENGTH_SHORT).show()
-            finish()
-        }
+        setContentView(binding.root)
 
-        binding.declineButton.setOnClickListener {
-            CustomModel.getInstance().changeState(false)
-            finish()
-        }
+
 
     }
 
 
-    private fun performPayment(apiKey: String?, amount: String?, description: String?): String? {
-        // Your payment logic goes here
-        // Return the payment ID if successful, null otherwise
-        return "dummyPaymentId"
-    }
+
+
     companion object {
-        private const val TAG = "SecondActivity"
+        const val TAG = "SecondActivity"
     }
+
 }

@@ -8,7 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.pluggindemo.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(),CustomModel.OnCustomStateListener {
+class MainActivity : AppCompatActivity(),OnCustomStateListener {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,16 +33,17 @@ class MainActivity : AppCompatActivity(),CustomModel.OnCustomStateListener {
     override fun onPaymentSuccess(message: String) {
         val modelState = CustomModel.getInstance().getState()
         Toast.makeText(this, "Response: $message", Toast.LENGTH_SHORT).show()
-        binding.textView.setText("Succes $modelState")
+        binding.textView.setText("Success $modelState")
         Log.d(TAG,"MainActivity says: Model state changed: $modelState" )
     }
 
     override fun stateDeclined() {
-        TODO("Not yet implemented")
+        binding.textView.setText("declined")
+        Toast.makeText(this, "Response: Declined", Toast.LENGTH_SHORT).show()
     }
-
-    companion object {
-        private const val TAG = "MainActivity"
-    }
+//
+//    companion object {
+//        private const val TAG = "MainActivity"
+//    }
 
 }

@@ -64,4 +64,17 @@
             android:layout_marginTop="15dp"
             android:minHeight="48dp" />
     </LinearLayout>
+
+
+
+
+
+
+    <Button
+        android:id="@+id/decline_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="Next"
+        />
 </LinearLayout>

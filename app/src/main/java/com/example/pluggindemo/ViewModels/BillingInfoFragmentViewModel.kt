@@ -1,4 +1,4 @@
-package com.example.pluggindemo
+package com.example.pluggindemo.ViewModels
 
 import androidx.lifecycle.ViewModel
 
