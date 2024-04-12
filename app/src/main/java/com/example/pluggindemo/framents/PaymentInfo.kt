@@ -46,6 +46,21 @@ class PaymentInfoFragment : Fragment() {
                 // Not needed
             }
         })
+
+        binding.editTextCardNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not needed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Set the text of the second TextView when the card holder name changes
+                binding.cardNumber.text = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not needed
+            }
+        })
 //        binding.declineButton.setOnClickListener {
 //            CustomModel.getInstance().changeState(true)
 //            // (activity as? PaymentActivity)?.binding?.viewPager?.setCurrentItem(1, true)
@@ -93,6 +108,7 @@ binding.editTextCardNumber.addTextChangedListener(object : TextWatcher {
 
     private fun performPayment(apiKey: String?, amount: String?, description: String?): Any {
 return "Dummy iD"
+        CustomModel.getInstance().changeState(true)
     }
 
     override fun onDestroyView() {

@@ -21,7 +21,7 @@ class BillingInfoFragment : Fragment() {
     ): View? {
 
         _binding = FragmentBillingInfoFragmentBinding.inflate(inflater, container, false)
-        binding.declineButton.setOnClickListener {
+        binding.buttonNext.setOnClickListener {
             CustomModel.getInstance().changeState(true)
            (activity as? PaymentActivity)?.binding?.viewPager?.setCurrentItem(1, true)
 
