@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Define a custom style for the TabLayout -->
+    <style name="CustomTabLayoutStyle" parent="Widget.Design.TabLayout">
+        <!-- Reference a custom text appearance style -->
+        <item name="tabTextAppearance">@style/CustomTabTextAppearance</item>
+    </style>
+
+    <!-- Define a custom text appearance style for the tab titles -->
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <!-- Set the desired text size for the tab titles -->
+        <item name="android:textSize">12sp</item>
+        <!-- You can customize other text attributes here if needed -->
+    </style>
+
+</resources>

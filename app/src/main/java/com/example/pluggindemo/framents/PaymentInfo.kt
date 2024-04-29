@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.example.pluggindemo.CustomModel
+import com.example.pluggindemo.OtpScreen
 import com.example.pluggindemo.PaymentActivity
 import com.example.pluggindemo.R
 import com.example.pluggindemo.ViewModels.PaymentInfoViewModel
@@ -69,38 +70,47 @@ class PaymentInfoFragment : Fragment() {
 //            (activity as? PaymentActivity)?.finish()
 //        }
         binding.payButton.setOnClickListener {
-           val intent = Intent()
-            CustomModel.getInstance().changeState(true)
-            Log.d(PaymentActivity.TAG, "SecondActivity onCreate: State changed to true")
-            val apiKey = intent.getStringExtra("API_KEY")
-            val amount = intent.getStringExtra("AMOUNT")
-            val description = intent.getStringExtra("DESCRIPTION")
-            val addressAvailable = intent.getBooleanExtra("ADDRESS_AVAILABLE",false)
+
+            val intent = Intent(activity, OtpScreen::class.java)
+            activity?.startActivity(intent)
+
+          // val intent = Intent()
+//            CustomModel.getInstance().changeState(true)
+//            Log.d(PaymentActivity.TAG, "SecondActivity onCreate: State changed to true")
+//            val apiKey = intent.getStringExtra("API_KEY")
+//            val amount = intent.getStringExtra("AMOUNT")
+//            val description = intent.getStringExtra("DESCRIPTION")
+//            val addressAvailable = intent.getBooleanExtra("ADDRESS_AVAILABLE",false)
+//
 
 
-binding.editTextCardNumber.addTextChangedListener(object : TextWatcher {
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        // No implementation needed
-    }
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if (!s.isNullOrEmpty()) {
-            binding.cardNumberLayout.isHintEnabled = true
-        } else {
-            binding.cardNumberLayout.isHintEnabled = false
+           // val paymentId = performPayment(apiKey, amount, description)
+           // Toast.makeText(context, "Response: $paymentId", Toast.LENGTH_SHORT).show()
+           // (activity as? PaymentActivity)?.finish()
         }
 
-       // (!s.isNullOrEmpty()).also { binding.outlinedTextField.isHintEnabled = it }
-    }
 
-    override fun afterTextChanged(s: Editable?) {
-        // No implementation needed
-    }
-})
-            val paymentId = performPayment(apiKey, amount, description)
-            Toast.makeText(context, "Response: $paymentId", Toast.LENGTH_SHORT).show()
-            (activity as? PaymentActivity)?.finish()
-        }
+
+
+        binding.editTextCardNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No implementation needed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.isNullOrEmpty()) {
+                    binding.cardNumberLayout.isHintEnabled = true
+                } else {
+                    binding.cardNumberLayout.isHintEnabled = false
+                }
+
+                // (!s.isNullOrEmpty()).also { binding.outlinedTextField.isHintEnabled = it }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // No implementation needed
+            }
+        })
         val customColor = Color.parseColor("#4290f4")
         binding.cardNumberLayout.boxStrokeColor = customColor
         return binding.root
