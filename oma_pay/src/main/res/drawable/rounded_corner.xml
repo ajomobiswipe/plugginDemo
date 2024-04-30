@@ -1,0 +1,10 @@
+<!-- rounded_border.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp" />
+            <solid android:color="#4290f4" />
+            <stroke android:width="2dp" android:color="#6F6E6A6A" />
+        </shape>
+    </item>
+</layer-list>

@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "plugginDemo"
 include(":app")
+include(":oma_pay")

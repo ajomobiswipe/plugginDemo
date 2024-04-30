@@ -1,26 +1,25 @@
-package com.example.pluggindemo
+package com.softpos.oma_pay
 
 import android.app.Activity
 import android.content.Intent
+import com.softpos.oma_pay.models.PaymentInfo
 
-class CustomModel private constructor() {
-
-
+class OmaPay private constructor() {
 
     companion object {
-        private var mInstance: CustomModel? = null
+        private var mInstance: OmaPay? = null
 
         @JvmStatic
-        fun getInstance(): CustomModel {
+        fun getInstance(): OmaPay {
             if (mInstance == null) {
-                mInstance = CustomModel()
+                mInstance = OmaPay()
             }
-            return mInstance as CustomModel
+            return mInstance as OmaPay
         }
     }
-    fun start(activity: Activity,listener: OnCustomStateListener, options: PaymentOptions,) {
+    fun start(activity: Activity,listener: OnCustomStateListener, options: PaymentInfo,) {
         mListener = listener
-        val intent = Intent(activity, PaymentActivity::class.java)
+        val intent = Intent(activity, OmaPayActivity::class.java)
         // Pass payment options to PaymentActivity
         intent.putExtra("API_KEY", options.apiKey)
         intent.putExtra("AMOUNT", options.amount)

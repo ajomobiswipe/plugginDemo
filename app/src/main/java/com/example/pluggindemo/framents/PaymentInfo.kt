@@ -13,13 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import com.example.pluggindemo.CustomModel
 import com.example.pluggindemo.OtpScreen
-import com.example.pluggindemo.PaymentActivity
 import com.example.pluggindemo.R
 import com.example.pluggindemo.ViewModels.PaymentInfoViewModel
 import com.example.pluggindemo.databinding.FragmentBillingInfoFragmentBinding
 import com.example.pluggindemo.databinding.FragmentPaymentInfoBinding
+import com.softpos.oma_pay.OmaPay
 
 class PaymentInfoFragment : Fragment() {
 
@@ -118,7 +117,7 @@ class PaymentInfoFragment : Fragment() {
 
     private fun performPayment(apiKey: String?, amount: String?, description: String?): Any {
 return "Dummy iD"
-        CustomModel.getInstance().changeState(true)
+        OmaPay.getInstance().changeState(true)
     }
 
     override fun onDestroyView() {

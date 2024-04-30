@@ -7,8 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.pluggindemo.databinding.ActivityMainBinding
+import com.softpos.oma_pay.OmaPay
+import com.softpos.oma_pay.OmaPayActivity
+import com.softpos.oma_pay.OnCustomStateListener
+import com.softpos.oma_pay.models.PaymentInfo
 
-class MainActivity : AppCompatActivity(),OnCustomStateListener {
+class MainActivity : AppCompatActivity(), OnCustomStateListener {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,21 +21,22 @@ class MainActivity : AppCompatActivity(),OnCustomStateListener {
         setContentView(binding.root)
        // CustomModel.getInstance().setListener(this,this)
 
-        val paymentOptions = PaymentOptions(
+        val paymentOptions = PaymentInfo(
             apiKey = "your_api_key",
             amount = "100",
             description = "Payment for something", isContainAddress = true
         )
         binding.buyButton.setOnClickListener {
-            val modelState = CustomModel.getInstance().getState()
+
+            val modelState = OmaPay.getInstance().getState()
             Log.d(TAG, "Current state: $modelState")
-            CustomModel.getInstance().start(this,this,paymentOptions)
+            OmaPay.getInstance().start(this,this,paymentOptions)
            Toast.makeText(this, "Buy now clicked", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onPaymentSuccess(message: String) {
-        val modelState = CustomModel.getInstance().getState()
+        val modelState = OmaPay.getInstance().getState()
         Toast.makeText(this, "Response: $message", Toast.LENGTH_SHORT).show()
         binding.textView.setText("Success $modelState")
         Log.d(TAG,"MainActivity says: Model state changed: $modelState" )

@@ -1,0 +1,13 @@
+<!-- divider_dotted.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <size
+        android:width="1dp"
+        android:height="1dp" />
+    <solid android:color="@android:color/transparent" />
+    <stroke
+        android:width="1dp"
+        android:color="@android:color/black"
+        android:dashWidth="4dp"
+        android:dashGap="2dp" />
+</shape>
