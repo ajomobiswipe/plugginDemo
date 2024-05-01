@@ -1,4 +1,4 @@
-package com.example.pluggindemo.ViewModels
+package com.softpos.oma_pay.ViewModels
 
 import androidx.lifecycle.ViewModel
 

@@ -9,6 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PlugginDemo">
         <activity
+            android:name=".OtpScreen"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".OmaPayActivity"
             android:exported="true">
             <intent-filter>

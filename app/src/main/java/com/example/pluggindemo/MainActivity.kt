@@ -1,14 +1,12 @@
 package com.example.pluggindemo
 
 import android.content.ContentValues.TAG
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.pluggindemo.databinding.ActivityMainBinding
 import com.softpos.oma_pay.OmaPay
-import com.softpos.oma_pay.OmaPayActivity
 import com.softpos.oma_pay.OnCustomStateListener
 import com.softpos.oma_pay.models.PaymentInfo
 

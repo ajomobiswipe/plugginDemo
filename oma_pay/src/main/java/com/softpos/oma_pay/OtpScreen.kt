@@ -1,4 +1,4 @@
-package com.example.pluggindemo
+package com.softpos.oma_pay
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.softpos.oma_pay.databinding.ActivityOtpScreenBinding
+import com.softpos.oma_pay.databinding.PaymentSuccessDialogBinding
 
 class OtpScreen : AppCompatActivity() {
 
@@ -28,75 +29,50 @@ class OtpScreen : AppCompatActivity() {
         pinFields.add(binding.pinField4)
         pinFields.add(binding.pinField5)
         pinFields.add(binding.pinField6)
-        // Add remaining EditText fields to pinFields list
+
 
         setupPinFields()
         // Set focus on the first PIN field
         pinFields.firstOrNull()?.requestFocus()
         binding.btnPayNow.setOnClickListener {
-
-            showAlert(this,"Success","Payment Success")
+            showCustomDialog(this)
         }
     }
-    fun showAlert(context: Context, title: String, message: String) {
+
+    private fun showCustomDialog(context: Context) {
+        val inflater = LayoutInflater.from(context)
+        val binding = PaymentSuccessDialogBinding.inflate(inflater)
+
         val alertDialogBuilder = AlertDialog.Builder(context)
-        alertDialogBuilder.setTitle(title)
-        alertDialogBuilder.setMessage(message)
+        alertDialogBuilder.setView(binding.root)
 
-        // Add positive button
-        alertDialogBuilder.setPositiveButton("OK") { dialog, which ->
-            // Positive button click listener
-            // You can add your action here if needed
-            dialog.dismiss()
-        }
-
-        // Add negative button
-        alertDialogBuilder.setNegativeButton("Cancel") { dialog, which ->
-            // Negative button click listener
-            // You can add your action here if needed
-            dialog.dismiss()
-        }
-
-        // Create and show the dialog
         val alertDialog = alertDialogBuilder.create()
+
+
+        binding.btnOk.setOnClickListener {
+
+            alertDialog.dismiss()
+        }
+
+        binding.closeButton.setOnClickListener {
+
+            alertDialog.dismiss()
+        }
+
         alertDialog.show()
     }
-
-
-
-//    fun showCustomDialog(context: Context) {
-//        // Inflate the custom layout
-//        val inflater = LayoutInflater.from(context)
-//        val view = inflater.inflate(R.layout.custom_dialog_layout, null)
-//
-//        // Build the AlertDialog
-//        val alertDialogBuilder = AlertDialog.Builder(context)
-//        alertDialogBuilder.setView(view)
-//
-//        // Set click listener for positive button
-//        view.positiveButton.setOnClickListener {
-//            // Handle positive button click
-//            // For example, you can dismiss the dialog
-//            alertDialog.dismiss()
-//        }
-//
-//        // Set click listener for negative button
-//        view.negativeButton.setOnClickListener {
-//            // Handle negative button click
-//            // For example, you can dismiss the dialog
-//            alertDialog.dismiss()
-//        }
-//
-//        // Create and show the dialog
-//        val alertDialog = alertDialogBuilder.create()
-//        alertDialog.show()
-//    }
 
     private fun setupPinFields() {
         for (i in 0 until pinFields.size) {
             val editText = pinFields[i]
             editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if (s?.length == 1 && i < pinFields.size - 1) {
