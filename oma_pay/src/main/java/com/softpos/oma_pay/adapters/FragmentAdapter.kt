@@ -8,17 +8,27 @@ import com.softpos.oma_pay.framents.BillingInfoFragment
 import com.softpos.oma_pay.framents.PaymentInfoFragment
 
 
-class FragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle):
-    FragmentStateAdapter(fragmentManager, lifecycle) {
+class FragmentAdapter(
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle,
+    private val isContainAddress: Boolean
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
+
     override fun getItemCount(): Int {
-        return 2
+        return if (isContainAddress) 2 else 1
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> BillingInfoFragment()
-            1 -> PaymentInfoFragment()
-            else -> BillingInfoFragment()
+        return if (isContainAddress) {
+
+            when (position) {
+                0 -> BillingInfoFragment()
+                1 -> PaymentInfoFragment()
+                else -> BillingInfoFragment()
+            }
+
+        } else {
+            PaymentInfoFragment()
         }
     }
 }

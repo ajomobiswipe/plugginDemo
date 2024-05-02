@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.softpos.oma_pay.OmaPay
 import com.softpos.oma_pay.OtpScreen
 import com.softpos.oma_pay.databinding.FragmentPaymentInfoBinding
+import java.util.Calendar
 
 class PaymentInfoFragment : Fragment() {
 
@@ -47,14 +48,69 @@ class PaymentInfoFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Set the text of the second TextView when the card holder name changes
-                binding.cardNumber.text = s.toString()
+                // Remove any previously added spaces
+                val cleanString = s?.toString()?.replace("\\s".toRegex(), "")
+
+                // Add a space after every 4 digits
+                val formattedString = cleanString?.chunked(4)?.joinToString(" ") ?: ""
+
+                // Set the text of the second TextView with the formatted string
+                binding.cardNumber.text = formattedString
+                binding.editTextCardNumber.removeTextChangedListener(this)
+                binding.editTextCardNumber.setText(formattedString)
+                binding.editTextCardNumber.setSelection(formattedString.length)
+                binding.editTextCardNumber.addTextChangedListener(this)
             }
 
             override fun afterTextChanged(s: Editable?) {
                 // Not needed
             }
         })
+        binding.editTextExpiry.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not needed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val cleanString = s?.toString()?.replace("\\D".toRegex(), "") ?: ""
+
+                if (cleanString.length >= 4) {
+                    val mm = cleanString.substring(0, 2).toIntOrNull() ?: 0
+                    val yy = cleanString.substring(2, 4).toIntOrNull() ?: 0
+
+                    // Validate month and year
+                    if (mm in 1..12 && yy >= 0 && yy <= 99 && (yy > getCurrentYear() % 100 || (yy == getCurrentYear() % 100 && mm > getCurrentMonth()))) {
+                        // Format MMYY to MM/YY
+                        val formattedDate = "${cleanString.substring(0, 2)}/${cleanString.substring(2, 4)}"
+
+                        // Set the text of the TextView with the formatted string
+                        binding.expiryDate.text = formattedDate
+
+                        // Set the text of the EditText with the formatted string
+                        binding.editTextExpiry.removeTextChangedListener(this)
+                        binding.editTextExpiry.setText(formattedDate)
+                        binding.editTextExpiry.setSelection(formattedDate.length)
+                        binding.editTextExpiry.addTextChangedListener(this)
+                    } else {
+                        // Invalid input, handle accordingly (e.g., clear the EditText or show an error)
+                        binding.editTextExpiry.error = "Invalid expiry date"
+                    }
+                }
+            }
+            // Helper function to get the current year
+            private fun getCurrentYear(): Int {
+                return Calendar.getInstance().get(Calendar.YEAR)
+            }
+
+            // Helper function to get the current month (1-based index)
+            private fun getCurrentMonth(): Int {
+                return Calendar.getInstance().get(Calendar.MONTH)
+            }
+            override fun afterTextChanged(s: Editable?) {
+                // Not needed
+            }
+        })
+
 //        binding.declineButton.setOnClickListener {
 //            CustomModel.getInstance().changeState(true)
 //            // (activity as? PaymentActivity)?.binding?.viewPager?.setCurrentItem(1, true)
@@ -72,12 +128,6 @@ class PaymentInfoFragment : Fragment() {
 
             activity?.finish()
 
-//            Log.d(PaymentActivity.TAG, "SecondActivity onCreate: State changed to true")
-//            val apiKey = intent.getStringExtra("API_KEY")
-//            val amount = intent.getStringExtra("AMOUNT")
-//            val description = intent.getStringExtra("DESCRIPTION")
-//            val addressAvailable = intent.getBooleanExtra("ADDRESS_AVAILABLE",false)
-//
 
 
            // val paymentId = performPayment(apiKey, amount, description)

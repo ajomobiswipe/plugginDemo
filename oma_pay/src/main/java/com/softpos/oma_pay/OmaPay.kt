@@ -17,7 +17,7 @@ class OmaPay  constructor() {
             return mInstance as OmaPay
         }
     }
-    fun start(activity: Activity,listener: OnCustomStateListener, options: PaymentInfo,) {
+    private fun start(activity: Activity, listener: OnCustomStateListener, options: PaymentInfo,) {
 
         mListener = listener
         val intent = Intent(activity, OmaPayActivity::class.java)
@@ -29,6 +29,13 @@ class OmaPay  constructor() {
 
         activity.startActivity(intent)
     }
+
+    fun makePayment(activity: Activity,listener: OnCustomStateListener, options: PaymentInfo,) {
+
+        getInstance().start(activity,listener,options)
+    }
+
+
     private var mListener: OnCustomStateListener? = null
     private var mState = false
 
