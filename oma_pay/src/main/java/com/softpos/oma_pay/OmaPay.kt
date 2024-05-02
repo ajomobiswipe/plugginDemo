@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.softpos.oma_pay.models.PaymentInfo
 
-class OmaPay private constructor() {
+class OmaPay  constructor() {
 
     companion object {
         private var mInstance: OmaPay? = null
@@ -18,6 +18,7 @@ class OmaPay private constructor() {
         }
     }
     fun start(activity: Activity,listener: OnCustomStateListener, options: PaymentInfo,) {
+
         mListener = listener
         val intent = Intent(activity, OmaPayActivity::class.java)
         // Pass payment options to PaymentActivity

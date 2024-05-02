@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity(), OnCustomStateListener {
         )
         binding.buyButton.setOnClickListener {
 
-            val modelState = OmaPay.getInstance().getState()
-            Log.d(TAG, "Current state: $modelState")
+           // val modelState = OmaPay.getInstance().getState()
+           // Log.d(TAG, "Current state: $modelState")
             OmaPay.getInstance().start(this,this,paymentOptions)
            Toast.makeText(this, "Buy now clicked", Toast.LENGTH_SHORT).show()
         }

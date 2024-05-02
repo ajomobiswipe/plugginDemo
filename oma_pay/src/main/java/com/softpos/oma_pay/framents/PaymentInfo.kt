@@ -63,12 +63,15 @@ class PaymentInfoFragment : Fragment() {
 //            (activity as? PaymentActivity)?.finish()
 //        }
         binding.payButton.setOnClickListener {
+//
+//            val intent = Intent(activity, OtpScreen::class.java)
+//            activity?.startActivity(intent)
 
-            val intent = Intent(activity, OtpScreen::class.java)
-            activity?.startActivity(intent)
 
-          // val intent = Intent()
-//            CustomModel.getInstance().changeState(true)
+           OmaPay.getInstance().changeState(true)
+
+            activity?.finish()
+
 //            Log.d(PaymentActivity.TAG, "SecondActivity onCreate: State changed to true")
 //            val apiKey = intent.getStringExtra("API_KEY")
 //            val amount = intent.getStringExtra("AMOUNT")
