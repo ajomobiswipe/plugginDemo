@@ -13,6 +13,7 @@ class OmaPayActivity : AppCompatActivity() {
     lateinit var binding: ActivityPaymentBinding
     var tabTitle = arrayOf("Billing Information", "payment Information")
     override fun onCreate(savedInstanceState: Bundle?) {
+        instance = this
         super.onCreate(savedInstanceState)
         val addressAvailable = intent.getBooleanExtra("ADDRESS_AVAILABLE",false)
         binding = ActivityPaymentBinding.inflate(layoutInflater)
@@ -56,5 +57,6 @@ class OmaPayActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "SecondActivity"
+        var instance: OmaPayActivity? = null
     }
 }

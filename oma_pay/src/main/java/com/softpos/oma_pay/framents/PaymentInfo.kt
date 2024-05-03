@@ -119,19 +119,15 @@ class PaymentInfoFragment : Fragment() {
 //            (activity as? PaymentActivity)?.finish()
 //        }
         binding.payButton.setOnClickListener {
+
+            val intent = Intent(activity, OtpScreen::class.java)
+            activity?.startActivity(intent)
+
+
+//           OmaPay.getInstance().changeState(true)
 //
-//            val intent = Intent(activity, OtpScreen::class.java)
-//            activity?.startActivity(intent)
+//            activity?.finish()
 
-
-           OmaPay.getInstance().changeState(true)
-
-            activity?.finish()
-
-
-
-           // val paymentId = performPayment(apiKey, amount, description)
-           // Toast.makeText(context, "Response: $paymentId", Toast.LENGTH_SHORT).show()
            // (activity as? PaymentActivity)?.finish()
         }
 

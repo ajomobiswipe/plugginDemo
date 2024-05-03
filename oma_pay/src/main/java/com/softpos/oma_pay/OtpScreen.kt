@@ -50,8 +50,11 @@ class OtpScreen : AppCompatActivity() {
 
 
         binding.btnOk.setOnClickListener {
-
+            OmaPay.getInstance().changeState(true)
+            OmaPayActivity.instance?.finish()
             alertDialog.dismiss()
+           finish()
+
         }
 
         binding.closeButton.setOnClickListener {
