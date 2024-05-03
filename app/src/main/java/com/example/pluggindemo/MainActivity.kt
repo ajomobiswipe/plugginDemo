@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), OnCustomStateListener {
             omaPay.makePayment(
                 this,
                 this,
-                paymentOptions
+                paymentOptions,getRequestBody()
             )
            Toast.makeText(this, "Buy now clicked", Toast.LENGTH_SHORT).show()
         }

@@ -3,6 +3,7 @@ package com.softpos.oma_pay
 import android.app.Activity
 import android.content.Intent
 import com.softpos.oma_pay.models.PaymentInfo
+import com.softpos.oma_pay.models.RequestBodyModel
 
 class OmaPay  constructor() {
 
@@ -17,7 +18,7 @@ class OmaPay  constructor() {
             return mInstance as OmaPay
         }
     }
-    private fun start(activity: Activity, listener: OnCustomStateListener, options: PaymentInfo,) {
+    private fun start(activity: Activity, listener: OnCustomStateListener, options: PaymentInfo,reqModel: RequestBodyModel) {
 
         mListener = listener
         val intent = Intent(activity, OmaPayActivity::class.java)
@@ -30,9 +31,9 @@ class OmaPay  constructor() {
         activity.startActivity(intent)
     }
 
-    fun makePayment(activity: Activity,listener: OnCustomStateListener, options: PaymentInfo,) {
+    fun makePayment(activity: Activity,listener: OnCustomStateListener, options: PaymentInfo,reqModel: RequestBodyModel) {
 
-        getInstance().start(activity,listener,options)
+        getInstance().start(activity,listener,options,reqModel)
     }
 
 
