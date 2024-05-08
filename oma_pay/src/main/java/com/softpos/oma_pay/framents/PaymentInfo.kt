@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.softpos.oma_pay.OmaPay
 import com.softpos.oma_pay.OtpScreen
 import com.softpos.oma_pay.databinding.FragmentPaymentInfoBinding
@@ -81,7 +82,8 @@ class PaymentInfoFragment : Fragment() {
                     // Validate month and year
                     if (mm in 1..12 && yy >= 0 && yy <= 99 && (yy > getCurrentYear() % 100 || (yy == getCurrentYear() % 100 && mm > getCurrentMonth()))) {
                         // Format MMYY to MM/YY
-                        val formattedDate = "${cleanString.substring(0, 2)}/${cleanString.substring(2, 4)}"
+                        val formattedDate =
+                            "${cleanString.substring(0, 2)}/${cleanString.substring(2, 4)}"
 
                         // Set the text of the TextView with the formatted string
                         binding.expiryDate.text = formattedDate
@@ -97,6 +99,7 @@ class PaymentInfoFragment : Fragment() {
                     }
                 }
             }
+
             // Helper function to get the current year
             private fun getCurrentYear(): Int {
                 return Calendar.getInstance().get(Calendar.YEAR)
@@ -106,89 +109,97 @@ class PaymentInfoFragment : Fragment() {
             private fun getCurrentMonth(): Int {
                 return Calendar.getInstance().get(Calendar.MONTH)
             }
+
             override fun afterTextChanged(s: Editable?) {
                 // Not needed
             }
         })
 
-//        binding.declineButton.setOnClickListener {
-//            CustomModel.getInstance().changeState(true)
-//            // (activity as? PaymentActivity)?.binding?.viewPager?.setCurrentItem(1, true)
-//
-//            Toast.makeText(context, "next clicked", Toast.LENGTH_SHORT).show()
-//            (activity as? PaymentActivity)?.finish()
-//        }
         binding.payButton.setOnClickListener {
+            if (checkCreditCardFields()) {
+                val intent = Intent(activity, OtpScreen::class.java)
+                activity?.startActivity(intent)
+            } else {
+                Snackbar.make(binding.root, "Please enter Card Details", Snackbar.LENGTH_LONG)
+                    .show()
+            }
 
-            val intent = Intent(activity, OtpScreen::class.java)
-            activity?.startActivity(intent)
-
-
-//           OmaPay.getInstance().changeState(true)
-//
-//            activity?.finish()
-
-           // (activity as? PaymentActivity)?.finish()
         }
 
-
-
-
-        binding.editTextCardNumber.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // No implementation needed
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrEmpty()) {
-                    binding.cardNumberLayout.isHintEnabled = true
-                } else {
-                    binding.cardNumberLayout.isHintEnabled = false
-                }
-
-                // (!s.isNullOrEmpty()).also { binding.outlinedTextField.isHintEnabled = it }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // No implementation needed
-            }
-        })
-        val customColor = Color.parseColor("#4290f4")
-        binding.cardNumberLayout.boxStrokeColor = customColor
         return binding.root
     }
 
-    private fun performPayment(apiKey: String?, amount: String?, description: String?): Any {
-return "Dummy iD"
-        OmaPay.getInstance().changeState(true)
+    private fun checkCreditCardFields(): Boolean {
+        val binding = _binding ?: return false
+        if (binding.editTextCardNumber.text?.isEmpty() == true) {
+            binding.editTextCardNumber.error = "Card number is required"
+            return false
+        }
+        // Check if the card number is valid (you may use a separate function or library for this)
+        val cardNumber = binding.editTextCardNumber.text?.toString()
+        if (!isValidCardNumber(cardNumber)) {
+            binding.editTextCardNumber.error = "Invalid card number"
+            return false
+        }
+
+
+        if (binding.editTextExpiry.text?.isEmpty() == true) {
+            binding.editTextExpiry.error = "Expiry date is required"
+            return false
+        }
+
+        // Check if the expiry date is valid (you may use a separate function or library for this)
+        val expiryDate = binding.editTextExpiry.text?.toString()
+        if (!isValidExpiryDate(expiryDate)) {
+            binding.editTextExpiry.error = "Invalid expiry date"
+            return false
+        }
+
+        if (binding.editTextCvv.text?.isEmpty() == true) {
+            binding.editTextCvv.error = "CVV is required"
+            return false
+        }
+
+        // Check if the CVV is valid (you may use a separate function or library for this)
+        val cvv = binding.editTextCvv.text?.toString()
+        if (!isValidCvv(cvv)) {
+            binding.editTextCvv.error = "Invalid CVV"
+            return false
+        }
+        if (binding.editTextCardHolderName.text?.isEmpty() == true) {
+            binding.editTextCardHolderName.error = "Card holder name is required"
+            return false
+        }
+        return true
+    }
+
+    // Placeholder function for validating the credit card number
+    private fun isValidCardNumber(cardNumber: String?): Boolean {
+        // Implement your validation logic here
+        // For example, you can use regex to validate the format
+        // You may also perform checksum validation according to credit card standards
+        return cardNumber?.matches(Regex("^\\d{4} \\d{4} \\d{4} \\d{4}$")) ?: false
+    }
+
+    // Placeholder function for validating the expiry date
+    private fun isValidExpiryDate(expiryDate: String?): Boolean {
+        // Implement your validation logic here
+        // For example, you can check if the expiry date is in the future and in a valid format
+        // You may also split the expiry date into month and year and perform separate validations
+        return expiryDate?.matches(Regex("^\\d{2}/\\d{2}$")) ?: false
+    }
+
+    // Placeholder function for validating the CVV
+    private fun isValidCvv(cvv: String?): Boolean {
+        // Implement your validation logic here
+        // For example, you can check if the CVV is a 3 or 4-digit number
+        return cvv?.matches(Regex("^\\d{3,4}$")) ?: false
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-//        binding.payButton.setOnClickListener {
-//           val intent = Intent()
-//            CustomModel.getInstance().changeState(true)
-//            Log.d(PaymentActivity.TAG, "SecondActivity onCreate: State changed to true")
-//            val apiKey = intent.getStringExtra("API_KEY")
-//            val amount = intent.getStringExtra("AMOUNT")
-//            val description = intent.getStringExtra("DESCRIPTION")
-//            val addressAvailable = intent.getBooleanExtra("ADDRESS_AVAILABLE",false)
-//
-//            // Perform the payment logic here using apiKey, amount, and description
-//           // val paymentId = performPayment(apiKey, amount, description)
-//           // Toast.makeText(this, "Response: $paymentId", Toast.LENGTH_SHORT).show()
-//           // finish()
-//        }
-//
-//        binding.declineButton.setOnClickListener {
-//            CustomModel.getInstance().changeState(false)
-//           // finish()
-//        }
-//        return inflater.inflate(R.layout.fragment_payment_info, container, false)
-//    }
-//
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProvider(this).get(PaymentInfoViewModel::class.java)

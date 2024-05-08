@@ -19,6 +19,7 @@ class OmaPayActivity : AppCompatActivity() {
         binding = ActivityPaymentBinding.inflate(layoutInflater)
 
         var pager = binding.viewPager
+        pager.isUserInputEnabled=false
         pager.adapter = FragmentAdapter(supportFragmentManager, lifecycle,addressAvailable)
         var t1 = binding.tabs
 

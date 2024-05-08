@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-
+                app:boxStrokeColor="#4290f4"
                 android:hint="Card Number">
 
                 <com.google.android.material.textfield.TextInputEditText
